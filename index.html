@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>vue js</title>
+  </head>
+  <body>
+    <div id="app">
+        <h1>{{name + " " + appendix}}</h1>
+        <input type="text" name="" value="" v-on:input="change">
+        <h4>Status: {{status}}</h4>
+        <pre>{{body}}</pre>
+    </div>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+  <script type="text/javascript">
+    new Vue({
+      el: '#app',
+      data: {
+        name: "hello",
+        appendix: "",
+        status: "",
+        body:""
+      },
+      methods: {
+        change: function(event) {
+          this.appendix = event.target.value;
+          this.body = "Получение информации";
+          if (this.appendix.length > 3){
+            axios
+              .get("http://localhost/api/autocomplete?text="+ event.target.value+"&limit=10")
+              .then(response => (this.body = response.data));
+          }
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>
